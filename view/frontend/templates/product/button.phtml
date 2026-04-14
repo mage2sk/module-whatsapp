@@ -1,0 +1,204 @@
+<?php
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ * Product Page WhatsApp Button
+ *
+ * Supports 4 styles: solid, outline, icon_only, text_only
+ * All styles use CSS variables from theme-config.json for colors.
+ */
+
+declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Panth\WhatsApp\ViewModel\Product as ProductViewModel;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ProductViewModel $viewModel */
+
+$viewModel = $block->getViewModel();
+
+if (!$viewModel || !$viewModel->isEnabled()) {
+    return;
+}
+
+$product = $viewModel->getProduct();
+if (!$product) {
+    return;
+}
+
+$whatsappUrl = $viewModel->getWhatsAppUrl();
+if (!$whatsappUrl) {
+    return;
+}
+
+$buttonText = $viewModel->getButtonText();
+$buttonStyle = $viewModel->getButtonStyle();
+$customClasses = $viewModel->getCustomCssClasses();
+
+// Map admin style to CSS class
+$styleClass = match ($buttonStyle) {
+    'solid' => 'wa-style-solid',
+    'outline' => 'wa-style-outline',
+    'icon_only' => 'wa-style-icon',
+    default => 'wa-style-text',
+};
+?>
+
+<style>
+    /* ── Base: shared styles for all WhatsApp product buttons ── */
+    .wa-product-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        line-height: 1.4;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .wa-product-btn svg {
+        flex-shrink: 0;
+        fill: currentColor;
+    }
+
+    /* ── Solid: filled background button ── */
+    .wa-product-btn.wa-style-solid {
+        padding: 10px 20px;
+        border-radius: 8px;
+        background-color: var(--whatsapp-button-bg, #25D366);
+        color: var(--whatsapp-button-text, #fff);
+        font-size: 15px;
+        border: none;
+    }
+    .wa-product-btn.wa-style-solid svg {
+        width: 20px;
+        height: 20px;
+    }
+    .wa-product-btn.wa-style-solid:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        color: var(--whatsapp-button-text, #fff);
+        text-decoration: none;
+    }
+
+    /* ── Outline: border only ── */
+    .wa-product-btn.wa-style-outline {
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 2px solid var(--whatsapp-button-bg, #25D366);
+        background-color: transparent;
+        color: var(--whatsapp-button-bg, #25D366);
+        font-size: 15px;
+    }
+    .wa-product-btn.wa-style-outline svg {
+        width: 20px;
+        height: 20px;
+    }
+    .wa-product-btn.wa-style-outline:hover {
+        background-color: var(--whatsapp-button-bg, #25D366);
+        color: var(--whatsapp-button-text, #fff);
+        text-decoration: none;
+    }
+
+    /* ── Icon Only: compact circle button ── */
+    .wa-product-btn.wa-style-icon {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border-radius: 50%;
+        background-color: var(--whatsapp-button-bg, #25D366);
+        color: var(--whatsapp-button-text, #fff);
+        justify-content: center;
+    }
+    .wa-product-btn.wa-style-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+    .wa-product-btn.wa-style-icon .wa-btn-label {
+        /* Screen reader only — visually hidden but accessible */
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+    .wa-product-btn.wa-style-icon:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        color: var(--whatsapp-button-text, #fff);
+        text-decoration: none;
+    }
+
+    /* ── Text Only: plain link style ── */
+    .wa-product-btn.wa-style-text {
+        padding: 6px 0;
+        background: none;
+        border: none;
+        color: var(--whatsapp-button-bg, #25D366);
+        font-size: 14px;
+    }
+    .wa-product-btn.wa-style-text svg {
+        width: 18px;
+        height: 18px;
+    }
+    .wa-product-btn.wa-style-text:hover {
+        opacity: 0.75;
+        color: var(--whatsapp-button-bg, #25D366);
+        text-decoration: none;
+    }
+
+    /* ── Mobile: larger touch targets ── */
+    @media (max-width: 767px) {
+        .wa-product-btn.wa-style-solid,
+        .wa-product-btn.wa-style-outline {
+            width: 100%;
+            justify-content: center;
+            padding: 12px 20px;
+            font-size: 16px;
+        }
+        .wa-product-btn.wa-style-solid svg,
+        .wa-product-btn.wa-style-outline svg {
+            width: 22px;
+            height: 22px;
+        }
+        .wa-product-btn.wa-style-icon {
+            width: 48px;
+            height: 48px;
+        }
+        .wa-product-btn.wa-style-icon svg {
+            width: 26px;
+            height: 26px;
+        }
+        .wa-product-btn.wa-style-text {
+            padding: 10px 0;
+            font-size: 15px;
+        }
+        .wa-product-btn.wa-style-text svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+</style>
+
+<a
+    href="<?= $escaper->escapeUrl($whatsappUrl) ?>"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="wa-product-btn <?= $escaper->escapeHtmlAttr($styleClass) ?> <?= $escaper->escapeHtmlAttr($customClasses) ?>"
+    title="<?= $escaper->escapeHtmlAttr($buttonText) ?>"
+    aria-label="<?= $escaper->escapeHtmlAttr($buttonText) ?>"
+>
+    <svg viewBox="0 0 32 32">
+        <path d="M16.002 0C7.165 0 0 7.165 0 16.002c0 2.825.745 5.479 2.044 7.796L.068 31.93l8.353-2.002A15.908 15.908 0 0 0 16.002 32C24.837 32 32 24.835 32 16.002 32 7.165 24.837 0 16.002 0zm9.381 22.837c-.383 1.077-1.905 1.973-3.124 2.23-.835.175-1.926.316-5.597-1.204-4.696-1.944-7.722-6.675-7.956-6.98-.223-.306-1.859-2.474-1.859-4.717 0-2.243 1.175-3.345 1.593-3.801.419-.456.912-.57 1.217-.57.305 0 .609.002.876.014.28.013.656-.107.928.707.383.917 1.303 3.176 1.416 3.407.113.232.189.503.038.809-.151.306-.227.497-.451.764-.224.268-.471.597-.672.801-.224.227-.458.472-.197.925.261.454 1.159 1.911 2.487 3.096 1.71 1.524 3.15 2.001 3.594 2.228.444.227.704.189.963-.113.259-.302 1.111-1.293 1.407-1.738.296-.445.593-.371 1-.223.406.148 2.585 1.218 3.029 1.44.444.223.74.334.847.519.107.185.107 1.074-.276 2.151z"/>
+    </svg>
+    <span class="wa-btn-label"><?= $escaper->escapeHtml($buttonText) ?></span>
+</a>

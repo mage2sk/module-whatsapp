@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * WhatsApp Module - Product View Layout
+ *
+ * @category  Panth
+ * @package   Panth_WhatsApp
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- For Hyva Theme — renders inline with wishlist/compare in buy row -->
+        <referenceContainer name="product.info.additional.actions">
+            <block class="Panth\WhatsApp\Block\Product\Button"
+                   name="whatsapp.product.button.hyva"
+                   template="Panth_WhatsApp::product/button.phtml"
+                   after="-">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Panth\WhatsApp\ViewModel\Product</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <!-- For Luma Theme fallback -->
+        <referenceContainer name="product.info.addtocart.additional">
+            <block class="Panth\WhatsApp\Block\Product\Button"
+                   name="whatsapp.product.button"
+                   template="Panth_WhatsApp::product/button.phtml"
+                   before="-">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Panth\WhatsApp\ViewModel\Product</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

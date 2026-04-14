@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * WhatsApp Module Default Configuration
+ *
+ * @category  Panth
+ * @package   Panth_WhatsApp
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <panth_whatsapp>
+            <general>
+                <enabled>0</enabled>
+                <phone_number>+918401270422</phone_number>
+                <message>Hi! I have a question about your products.</message>
+                <button_text>Chat with Us</button_text>
+                <position>bottom-left</position>
+            </general>
+            <product>
+                <enabled>0</enabled>
+                <button_text>Ask on WhatsApp</button_text>
+                <message_template>Hi! I'm interested in {product_name}. {product_url}</message_template>
+                <button_style>default</button_style>
+            </product>
+            <category>
+                <enabled>0</enabled>
+                <button_text>Chat with Us</button_text>
+                <message_template>Hi! I need help finding products in your store.</message_template>
+            </category>
+        </panth_whatsapp>
+    </default>
+</config>

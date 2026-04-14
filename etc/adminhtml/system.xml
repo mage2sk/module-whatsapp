@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * WhatsApp Module System Configuration
+ *
+ * @category  Panth
+ * @package   Panth_WhatsApp
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="panth" translate="label" sortOrder="100">
+            <label>🚀 Panth Extensions</label>
+        </tab>
+
+        <section id="panth_whatsapp" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>WhatsApp Integration</label>
+            <tab>panth</tab>
+            <resource>Panth_WhatsApp::config</resource>
+
+            <!-- General Settings for Float Button -->
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Float Button Settings</label>
+                <comment><![CDATA[Configure the floating WhatsApp button that appears on all pages.]]></comment>
+
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable WhatsApp Float Button</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable the floating WhatsApp button.</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                </field>
+
+                <field id="phone_number" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>WhatsApp Phone Number</label>
+                    <comment><![CDATA[Enter phone number with country code (e.g., +1234567890)]]></comment>
+                    <validate>required-entry</validate>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="message" translate="label comment" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Message</label>
+                    <comment>Pre-filled message when user clicks the WhatsApp button.</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="button_text" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Button Text</label>
+                    <comment>Text to display on hover (optional).</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="position" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Button Position</label>
+                    <source_model>Panth\WhatsApp\Model\Config\Source\Position</source_model>
+                    <comment>Position of the floating button on the page.</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- Product Page Settings -->
+            <group id="product" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Page Settings</label>
+                <comment><![CDATA[Configure WhatsApp button on product pages.]]></comment>
+
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable WhatsApp on Product Pages</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show WhatsApp button on product detail pages.</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                </field>
+
+                <field id="button_text" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Button Text</label>
+                    <comment>Text to display on the product page button.</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="message_template" translate="label comment" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Message Template</label>
+                    <comment><![CDATA[Use {product_name} and {product_url} as placeholders.]]></comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="button_style" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Button Style</label>
+                    <source_model>Panth\WhatsApp\Model\Config\Source\ButtonStyle</source_model>
+                    <comment>Visual style of the button.</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+
+                <!-- Button colors have been moved to theme-config.json for centralized management -->
+            </group>
+
+            <!-- Category Page Settings -->
+            <group id="category" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Category Page Settings</label>
+                <comment><![CDATA[Configure WhatsApp assistance banners on category pages.]]></comment>
+
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable WhatsApp on Category Pages</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show WhatsApp assistance banners on category/listing pages.</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                </field>
+
+                <field id="button_text" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Button Text</label>
+                    <comment>Text to display on the inquiry button.</comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="message_template" translate="label comment" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Message Template</label>
+                    <comment><![CDATA[Default message when customer clicks category inquiry button.]]></comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- Advanced Styling Settings -->
+            <group id="advanced" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Advanced Styling</label>
+                <comment><![CDATA[Customize the appearance of WhatsApp elements using Tailwind CSS classes.]]></comment>
+
+                <field id="custom_css_classes" translate="label comment" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom CSS Classes</label>
+                    <comment><![CDATA[Add custom CSS classes for additional styling. Enter one class per line.]]></comment>
+                    <backend_model>Panth\Core\Model\Config\Backend\Base</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

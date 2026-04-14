@@ -1,0 +1,159 @@
+<?php
+/**
+ * Copyright © Panth Infotech. All rights reserved.
+ * WhatsApp Floating Button - Works with both Hyva and Luma
+ */
+declare(strict_types=1);
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Panth\WhatsApp\ViewModel\FloatButton;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var FloatButton $viewModel */
+
+$viewModel = $block->getData('view_model');
+
+if (!$viewModel || !$viewModel->isEnabled()) {
+    return;
+}
+
+$whatsappUrl = $viewModel->getWhatsAppUrl();
+$position = $viewModel->getPosition();
+$buttonText = $viewModel->getButtonText();
+$customClasses = $viewModel->getCustomCssClasses();
+
+$isLeft = in_array($position, ['bottom-left', 'top-left']);
+$isBottom = in_array($position, ['bottom-left', 'bottom-right']);
+
+// Positioning uses CSS variables from theme-config.json
+// When bottom position: use offset-with-backtotop to avoid overlap
+$horizontalProp = $isLeft ? 'left' : 'right';
+$verticalStyle = $isBottom
+    ? 'bottom: var(--whatsapp-float-bottom-with-btt, 92px);'
+    : 'top: 80px;';
+$positionStyle = $verticalStyle . ' ' . $horizontalProp . ': var(--whatsapp-float-side, 24px);';
+
+$uniqueId = 'whatsapp-float-' . uniqid();
+?>
+
+<div
+    id="<?= $escaper->escapeHtmlAttr($uniqueId) ?>"
+    class="<?= $escaper->escapeHtmlAttr($customClasses) ?>"
+    style="position: fixed; <?= $escaper->escapeHtmlAttr($positionStyle) ?> z-index: 9999; width: var(--whatsapp-float-size, 56px); height: var(--whatsapp-float-size, 56px); opacity: 0; transform: scale(0); transition: all 0.5s ease;"
+>
+    <a
+        href="<?= $escaper->escapeUrl($whatsappUrl) ?>"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="whatsapp-float-link"
+        aria-label="<?= $escaper->escapeHtmlAttr(__('Chat on WhatsApp')) ?>"
+        title="<?= $escaper->escapeHtmlAttr($buttonText ?: __('Chat on WhatsApp')) ?>"
+        style="position: relative; display: flex; align-items: center; justify-content: center; width: var(--whatsapp-float-size, 56px); height: var(--whatsapp-float-size, 56px); background-color: var(--whatsapp-button-bg); border-radius: 50%; box-shadow: 0 4px 20px rgba(0,0,0,0.2); text-decoration: none; transition: all 0.3s ease;"
+    >
+        <!-- Pulsing ring animation -->
+        <span
+            class="ping-animation"
+            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; border-radius: 50%; background-color: var(--whatsapp-button-bg); opacity: 0.4;"
+        ></span>
+
+        <!-- WhatsApp Icon -->
+        <svg style="position: relative; z-index: 10; width: var(--whatsapp-float-icon-size, 28px); height: var(--whatsapp-float-icon-size, 28px); fill: var(--whatsapp-button-text);" viewBox="0 0 32 32">
+            <path d="M16.002 0C7.165 0 0 7.165 0 16.002c0 2.825.745 5.479 2.044 7.796L.068 31.93l8.353-2.002A15.908 15.908 0 0 0 16.002 32C24.837 32 32 24.835 32 16.002 32 7.165 24.837 0 16.002 0zm9.381 22.837c-.383 1.077-1.905 1.973-3.124 2.23-.835.175-1.926.316-5.597-1.204-4.696-1.944-7.722-6.675-7.956-6.98-.223-.306-1.859-2.474-1.859-4.717 0-2.243 1.175-3.345 1.593-3.801.419-.456.912-.57 1.217-.57.305 0 .609.002.876.014.28.013.656-.107.928.707.383.917 1.303 3.176 1.416 3.407.113.232.189.503.038.809-.151.306-.227.497-.451.764-.224.268-.471.597-.672.801-.224.227-.458.472-.197.925.261.454 1.159 1.911 2.487 3.096 1.71 1.524 3.15 2.001 3.594 2.228.444.227.704.189.963-.113.259-.302 1.111-1.293 1.407-1.738.296-.445.593-.371 1-.223.406.148 2.585 1.218 3.029 1.44.444.223.74.334.847.519.107.185.107 1.074-.276 2.151z"/>
+        </svg>
+
+        <!-- Hover tooltip -->
+        <span
+            class="whatsapp-tooltip"
+            style="position: absolute; <?= $isLeft ? 'right: 100%; margin-right: 12px;' : 'left: 100%; margin-left: 12px;' ?> padding: 8px 12px; background-color: #1a1a1a; color: var(--whatsapp-button-text); font-size: 14px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.2s ease;"
+        >
+            <?= $escaper->escapeHtml($buttonText ?: __('Chat on WhatsApp')) ?>
+            <span style="position: absolute; top: 50%; <?= $isLeft ? 'right: -4px;' : 'left: -4px;' ?> width: 8px; height: 8px; background-color: #1a1a1a; transform: translateY(-50%) rotate(45deg);"></span>
+        </span>
+    </a>
+</div>
+
+<style>
+    #<?= $escaper->escapeHtmlAttr($uniqueId) ?> .whatsapp-float-link:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+    }
+
+    #<?= $escaper->escapeHtmlAttr($uniqueId) ?> .whatsapp-float-link:hover .whatsapp-tooltip {
+        opacity: 1;
+    }
+
+    #<?= $escaper->escapeHtmlAttr($uniqueId) ?>.pulse-active .whatsapp-float-link {
+        animation: bounce 1s ease-in-out infinite;
+    }
+
+    #<?= $escaper->escapeHtmlAttr($uniqueId) ?>.pulse-active .ping-animation {
+        animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes ping {
+        75%, 100% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    @media (max-width: 1024px) {
+        #<?= $escaper->escapeHtmlAttr($uniqueId) ?> .whatsapp-tooltip {
+            display: none;
+        }
+    }
+
+    /* Mobile: same size as desktop — matches back-to-top exactly */
+    @media (max-width: 767px) {
+        #<?= $escaper->escapeHtmlAttr($uniqueId) ?> {
+            width: var(--whatsapp-float-size-mobile, 56px) !important;
+            height: var(--whatsapp-float-size-mobile, 56px) !important;
+            <?= $isLeft ? 'left' : 'right' ?>: var(--whatsapp-float-side, 24px) !important;
+        }
+        #<?= $escaper->escapeHtmlAttr($uniqueId) ?> .whatsapp-float-link {
+            width: var(--whatsapp-float-size-mobile, 56px) !important;
+            height: var(--whatsapp-float-size-mobile, 56px) !important;
+        }
+        #<?= $escaper->escapeHtmlAttr($uniqueId) ?> .whatsapp-float-link svg {
+            width: var(--whatsapp-float-icon-size-mobile, 28px);
+            height: var(--whatsapp-float-icon-size-mobile, 28px);
+        }
+    }
+</style>
+
+<script>
+    (function() {
+        var button = document.getElementById('<?= $escaper->escapeJs($uniqueId) ?>');
+        if (!button) return;
+
+        // Show button with animation after 1 second
+        setTimeout(function() {
+            button.style.opacity = '1';
+            button.style.transform = 'scale(1)';
+
+            // Add pulse animation
+            button.classList.add('pulse-active');
+
+            // Remove pulse after 3 seconds
+            setTimeout(function() {
+                button.classList.remove('pulse-active');
+            }, 3000);
+        }, 1000);
+
+        // Stop pulse on hover
+        button.querySelector('.whatsapp-float-link').addEventListener('mouseenter', function() {
+            button.classList.remove('pulse-active');
+        });
+    })();
+</script>
