@@ -4,6 +4,12 @@ All notable changes to this extension are documented here. The format
 is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.7]
+
+### Changed
+- Replaced typographic characters (em dashes, curly quotes, ellipsis) with plain ASCII punctuation. No functional changes.
+- Reworded a marketing phrase in the changelog into plain English.
+
 ## [1.0.6]
 
 ### Changed
@@ -51,8 +57,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   automatic category name appending.
 - **Admin configuration** under Stores > Configuration > Panth
   Extensions > WhatsApp Integration with per-store-view settings.
-- **CSS variable theming** via `theme-config.json` for seamless Hyva
-  design token integration.
+- **CSS variable theming** via `theme-config.json` that plugs into Hyva
+  design tokens.
 - **Custom CSS classes** field for additional Tailwind or custom
   styling from the admin panel.
 - Hyva and Luma theme compatibility.

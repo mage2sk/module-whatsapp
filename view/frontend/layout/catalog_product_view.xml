@@ -10,7 +10,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <!-- For Hyva Theme — renders inline with wishlist/compare in buy row -->
+        <!-- For Hyva Theme - renders inline with wishlist/compare in buy row -->
         <referenceContainer name="product.info.additional.actions">
             <block class="Panth\WhatsApp\Block\Product\Button"
                    name="whatsapp.product.button.hyva"
