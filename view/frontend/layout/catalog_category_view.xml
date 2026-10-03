@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * WhatsApp Module - Category/List View Layout
+ *
+ * @category  Panth
+ * @package   Panth_WhatsApp
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Add WhatsApp category banner above product listing -->
+        <referenceContainer name="content">
+            <block class="Panth\WhatsApp\Block\Category\Banner"
+                   name="whatsapp.category.banner"
+                   template="Panth_WhatsApp::category/banner.phtml"
+                   before="category.products">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Panth\WhatsApp\ViewModel\Category</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

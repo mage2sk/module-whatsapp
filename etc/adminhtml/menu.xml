@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Panth_WhatsApp::group"
+             title="WhatsApp"
+             module="Panth_WhatsApp"
+             sortOrder="65"
+             parent="Panth_Core::panth_extensions"
+             resource="Panth_WhatsApp::config"/>
+        <add id="Panth_WhatsApp::settings"
+             title="Configuration"
+             module="Panth_WhatsApp"
+             sortOrder="10"
+             parent="Panth_WhatsApp::group"
+             action="adminhtml/system_config/edit/section/panth_whatsapp"
+             resource="Panth_WhatsApp::config"/>
+    </menu>
+</config>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * WhatsApp Module Default Layout
+ *
+ * @category  Panth
+ * @package   Panth_WhatsApp
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Add WhatsApp Floating Button -->
+        <referenceContainer name="after.body.start">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="whatsapp.float"
+                   template="Panth_WhatsApp::whatsapp-float.phtml"
+                   ifconfig="panth_whatsapp/general/enabled">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Panth\WhatsApp\ViewModel\FloatButton</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

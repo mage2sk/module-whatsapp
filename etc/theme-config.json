@@ -1,0 +1,10 @@
+{
+  "whatsapp-button-bg": "#25D366",
+  "whatsapp-button-text": "#FFFFFF",
+  "whatsapp-float-size": "56px",
+  "whatsapp-float-size-mobile": "56px",
+  "whatsapp-float-icon-size": "28px",
+  "whatsapp-float-icon-size-mobile": "28px",
+  "whatsapp-float-side": "24px",
+  "whatsapp-float-bottom-with-btt": "92px"
+}

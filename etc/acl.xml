@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * WhatsApp Module ACL Configuration
+ *
+ * @category  Panth
+ * @package   Panth_WhatsApp
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Panth_WhatsApp::config" title="WhatsApp Integration Configuration" sortOrder="200"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
