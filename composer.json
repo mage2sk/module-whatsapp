@@ -2,8 +2,8 @@
     "name": "mage2kishan/module-whatsapp",
     "description": "WhatsApp Integration for Magento 2 \u2014 floating chat button, product page inquiry button, and category page assistance banner. Supports Hyva and Luma themes with CSS variable-based styling.",
     "type": "magento2-module",
-    "version": "1.0.19",
-    "license": "proprietary",
+    "version": "1.0.20",
+    "license": "MIT",
     "keywords": [
         "magento2",
         "magento2-module",
